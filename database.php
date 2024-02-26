@@ -4,8 +4,8 @@ class DBConnection {
 
     public function __construct() {
         $this->conn = new PDO(
-            "mysql:host=localhost;dbname=myssip",
-            "admin", "admin123");
+            "mysql:host=localhost;dbname=database",
+            "username", "password");
     }
 
     public function __destruct() {
