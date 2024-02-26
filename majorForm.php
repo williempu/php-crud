@@ -6,6 +6,19 @@ require_once("header.php");
 require_once("database.php");
 $db = new DBConnection();
 $errors = [];
+
+// if there is id in the URL, get data
+if (isset($_GET["id"])) {
+    $result = $db->getMajorById($_GET["id"]);
+    $name = $code = "";
+    if ($result) {
+        $major = $result->fetch();
+        $name = $major["name"];
+        $code = $major["code"];
+    }
+}
+
+// button is clicked
 if (isset($_POST["submit"])) {
     // check name first, set error if no value
     if (empty($_POST["name"])) {
@@ -20,12 +33,17 @@ if (isset($_POST["submit"])) {
         }
     }
 
+    $name = $_POST["name"];
+    $code = strtoupper($_POST["code"]);
     // check the $errors array, if count is zero, then proceed, else just show errors
     if (count($errors) == 0) {
-        $name = $_POST["name"];
-        $code = $_POST["code"];
         // save data and go back to listMajor.php (list of majors)
-        $db->saveMajor($name, $code);
+        // if there is id, we need to update, else create new
+        if (isset($_GET["id"])) {
+            $db->updateMajor($_GET["id"], $name, $code);
+        } else {
+            $db->saveMajor($name, $code);
+        }
         header("Location: listMajor.php");
     }
 }
@@ -47,10 +65,10 @@ if (isset($_POST["submit"])) {
                     value="<?php echo($code);?>" placeholder="Enter Major Code"/>
             </div>
         </div>
-        <input class="mt-3 btn btn-success" type="submit" name="submit" value="Add Record"/>
+        <input class="mt-3 btn btn-success" type="submit" name="submit" value="Save Record"/>
     </form>
     <div class="mt-4">
-        <ul>
+        <ul class="error">
             <?php
             foreach ($errors as $err) {
                 echo("<li>{$err}</li>");

@@ -41,10 +41,29 @@ class DBConnection {
         return $result;
     }
 
+    public function getMajorById($id) {
+        $sql = "SELECT id, name, code FROM major WHERE id = ?";
+        $result = $this->conn->prepare($sql);
+        $result->execute([$id]);
+        return $result;
+    }
+
     public function saveMajor($name, $code) {
         $sql = "INSERT INTO major (name, code) VALUES (?, ?)";
         $result = $this->conn->prepare($sql);
         $result->execute([$name, $code]);
+    }
+
+    public function updateMajor($id, $name, $code) {
+        $sql = "UPDATE major SET name = ?, code = ? WHERE id = ?";
+        $result = $this->conn->prepare($sql);
+        $result->execute([$name, $code, $id]);
+    }
+
+    public function deleteMajor($id) {
+        $sql = "DELETE FROM major WHERE id = ?";
+        $result = $this->conn->prepare($sql);
+        $result->execute([$id]);
     }
 }
 ?>
