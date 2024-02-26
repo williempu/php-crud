@@ -13,25 +13,36 @@ class DBConnection {
     }
 
     public function getAllStudents() {
-        $sql = "SELECT id, name, nim, phone FROM student";
+        $sql = "SELECT id, name, nim, phone, major_id FROM student";
         $result = $this->conn->prepare($sql);
         $result->execute();
         return $result;
     }
 
-    public function getStudentByNIM($studentNIM) {
-        $sql = "SELECT id, name, nim, phone FROM student
-        WHERE nim = ?";
+    public function getStudentById($id) {
+        $sql = "SELECT id, name, nim, phone, major_id FROM student WHERE id = ?";
         $result = $this->conn->prepare($sql);
-        $result->execute([$studentNIM]);
+        $result->execute([$id]);
         return $result;
     }
 
-    public function saveStudent($name, $nim, $phone, $major_id) {
+    public function addStudent($name, $nim, $phone, $major_id) {
         $sql = "INSERT INTO student (name, nim, phone, major_id)
         VALUES (?, ?, ?, ?)";
         $result = $this->conn->prepare($sql);
         $result->execute([$name, $nim, $phone, $major_id]);
+    }
+
+    public function updateStudent($id, $name, $nim, $phone, $major_id) {
+        $sql = "UPDATE student SET name = ?, nim = ?, phone = ?, major_id = ? WHERE id = ?";
+        $result = $this->conn->prepare($sql);
+        $result->execute([$name, $nim, $phone, $major_id, $id]);
+    }
+
+    public function deleteStudent($id) {
+        $sql = "DELETE FROM student WHERE id = ?";
+        $result = $this->conn->prepare($sql);
+        $result->execute([$id]);
     }
 
     public function getAllMajors() {
@@ -48,7 +59,7 @@ class DBConnection {
         return $result;
     }
 
-    public function saveMajor($name, $code) {
+    public function addMajor($name, $code) {
         $sql = "INSERT INTO major (name, code) VALUES (?, ?)";
         $result = $this->conn->prepare($sql);
         $result->execute([$name, $code]);

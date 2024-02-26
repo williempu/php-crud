@@ -42,7 +42,7 @@ if (isset($_POST["submit"])) {
         if (isset($_GET["id"])) {
             $db->updateMajor($_GET["id"], $name, $code);
         } else {
-            $db->saveMajor($name, $code);
+            $db->addMajor($name, $code);
         }
         header("Location: listMajor.php");
     }
@@ -65,7 +65,8 @@ if (isset($_POST["submit"])) {
                     value="<?php echo($code);?>" placeholder="Enter Major Code"/>
             </div>
         </div>
-        <input class="mt-3 btn btn-success" type="submit" name="submit" value="Save Record"/>
+        <input class="mt-3 btn btn-primary" type="submit" name="submit" value="Save Record"/>
+        <a class="mt-3 btn btn-warning" href="listMajor.php">Cancel</a>
     </form>
     <div class="mt-4">
         <ul class="error">

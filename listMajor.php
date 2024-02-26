@@ -35,7 +35,7 @@
         ?>
     </table>
     <div>
-        <a class="btn btn-success" href="majorForm.php">Create</a>
+        <a class="btn btn-success" href="majorForm.php">Add New Data</a>
     </div>
 </div>
 </body>
