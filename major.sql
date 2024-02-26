@@ -1,0 +1,5 @@
+CREATE TABLE major (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    code CHAR(3)
+);
